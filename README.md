@@ -75,7 +75,7 @@ The API key is already configured in `WeatherApp.API/appsettings.json`:
 {
   "OpenWeatherApi": {
     "BaseUrl": "https://api.openweathermap.org/data/2.5",
-    "ApiKey": "dd80ad3a0cc3f4896480b6cdc300b827"
+    "ApiKey": "YOUR_API_KEY"
   }
 }
 ```
