@@ -1,0 +1,119 @@
+<div class="weather-container">
+  <!-- Header -->
+  <div class="header">
+    <h1>🌤️ Weather App</h1>
+    <p>Get real-time weather information for any city</p>
+  </div>
+
+  <!-- Search Section -->
+  <div class="search-section">
+    <div class="search-box">
+      <input 
+        type="text" 
+        [(ngModel)]="searchCity" 
+        placeholder="Enter city name..."
+        (keyup.enter)="onSearch()"
+        (input)="clearError()"
+        class="search-input"
+      >
+      <button (click)="onSearch()" class="search-btn" [disabled]="loading">
+        {{ loading ? '🔍' : 'Search' }}
+      </button>
+      <button (click)="getCurrentLocationWeather()" class="search-btn" [disabled]="loading" style="margin-left: 8px;">
+        📍 Current Location
+      </button>
+    </div>
+  </div>
+
+  <!-- Error Display -->
+  <div *ngIf="error" class="error-message">
+    <div class="error-content">
+      <span class="error-icon">⚠️</span>
+      <span>{{ error }}</span>
+      <button (click)="clearError()" class="error-close">×</button>
+    </div>
+  </div>
+
+  <!-- Popular Cities -->
+  <div class="popular-cities">
+    <h3>Popular Cities</h3>
+    <div class="city-grid">
+      <button 
+        *ngFor="let city of popularCities" 
+        (click)="selectCity(city)"
+        class="city-btn"
+        [class.active]="currentWeather?.city === city"
+      >
+        {{ city }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Current Weather -->
+  <div *ngIf="currentWeather" class="current-weather">
+    <div class="weather-card">
+      <div class="weather-header">
+        <h2>{{ currentWeather.city }}</h2>
+        <div class="weather-icon">
+          {{ getWeatherIcon(currentWeather.icon) }}
+        </div>
+      </div>
+      
+      <div class="temperature-section">
+        <div class="main-temp" [class]="getTemperatureColor(currentWeather.temperature)">
+          {{ currentWeather.temperature }}°C
+        </div>
+        <div class="feels-like">
+          Feels like {{ currentWeather.feelsLike }}°C
+        </div>
+      </div>
+
+      <div class="weather-details">
+        <div class="detail-item">
+          <span class="label">Description:</span>
+          <span class="value">{{ getWeatherDescription(currentWeather.description) }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Humidity:</span>
+          <span class="value">{{ currentWeather.humidity }}%</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Wind Speed:</span>
+          <span class="value">{{ (currentWeather.windSpeed * 3.6) | number:'1.0-1' }} km/h</span>
+
+        </div>
+        <div class="detail-item">
+          <span class="label">Updated:</span>
+          <span class="value">{{ currentWeather.timestamp | date:'short' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Weather Forecast -->
+  <div *ngIf="forecast && forecast.threeHourForecast.length" class="forecast-section">
+    <h3>7-Day Forecast</h3>
+    <div class="forecast-grid">
+      <div *ngFor="let day of getDailyForecast(forecast.threeHourForecast)" class="forecast-card">
+        <div class="forecast-date">
+          {{ day.timestamp | date:'EEE, MMM d' }}
+        </div>
+        <div class="forecast-icon">
+          {{ getWeatherIcon(day.icon) }}
+        </div>
+        <div class="forecast-temp" [class]="getTemperatureColor(day.temperature)">
+          {{ day.temperature }}°C
+        </div>
+        <div class="forecast-desc">
+          {{ getWeatherDescription(day.description) }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Loading weather data...</p>
+  </div>
+</div> 
