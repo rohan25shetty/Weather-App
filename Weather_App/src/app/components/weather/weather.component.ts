@@ -72,7 +72,7 @@ export class WeatherComponent implements OnInit {
     this.loading = true;
     this.error = '';
     // Use OpenWeatherMap reverse geocoding API (or similar)
-    fetch(`https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=a29cc98bf2928cca3cbead02c8298214`)
+    fetch(`https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid="YOUR_API_KEY"`)
       .then(res => res.json())
       .then(data => {
         if (data && data.length > 0 && data[0].name) {
