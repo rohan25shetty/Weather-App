@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -28,7 +28,8 @@ export interface WeatherRequest {
 export class WeatherService {
   private apiUrl = 'http://localhost:5000/api/weather';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
+
 
   getCurrentWeather(city: string): Observable<WeatherData> {
     const encodedCity = encodeURIComponent(city);
